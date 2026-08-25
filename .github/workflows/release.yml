@@ -1,0 +1,57 @@
+name: Lighting OS Release Bot
+
+on:
+  workflow_dispatch:
+    inputs:
+      device_codename:
+        description: 'Device Codename (e.g. redfin)'
+        required: true
+        type: string
+      rom_version:
+        description: 'ROM Version (e.g. v1.5)'
+        required: true
+        type: string
+      maintainer_name:
+        description: 'Maintainer Telegram Username or Name'
+        required: true
+        type: string
+      download_url:
+        description: 'Gofile Download Link'
+        required: true
+        type: string
+      md5_hash:
+        description: 'MD5 Checksum'
+        required: false
+        type: string
+        default: 'Not provided'
+      changelog:
+        description: 'Changelog / Release Notes'
+        required: true
+        type: string
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Requests
+        run: pip install requests
+
+      - name: Run Bot Script
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: '@lighting_os_channel'
+          DEVICE: ${{ inputs.device_codename }}
+          VERSION: ${{ inputs.rom_version }}
+          MAINTAINER: ${{ inputs.maintainer_name }}
+          DOWNLOAD_URL: ${{ inputs.download_url }}
+          MD5: ${{ inputs.md5_hash }}
+          CHANGELOG: ${{ inputs.changelog }}
+        run: python release_bot.py
