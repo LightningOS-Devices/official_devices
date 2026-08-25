@@ -4,28 +4,45 @@ on:
   workflow_dispatch:
     inputs:
       device_codename:
-        description: 'Device Codename (e.g. redfin)'
+        description: 'Device Codename (e.g. cheetah)'
         required: true
         type: string
       rom_version:
-        description: 'ROM Version (e.g. v1.5)'
+        description: 'ROM Version (e.g. 1.0)'
         required: true
         type: string
+      build_date:
+        description: 'Build Date (YYYYMMDD)'
+        required: true
+        type: string
+        default: '20260915'
       maintainer_name:
-        description: 'Maintainer Telegram Username or Name'
+        description: 'Maintainer Name'
         required: true
         type: string
       download_url:
-        description: 'Gofile Download Link'
+        description: 'Download Link (Gofile, etc.)'
+        required: true
+        type: string
+      changelog_url:
+        description: 'Changelog Link (GitHub commit or Telegra.ph)'
+        required: true
+        type: string
+      support_url:
+        description: 'Telegram Support Chat URL'
+        required: true
+        type: string
+        default: 'https://t.me/LightningOSchat'
+      forum_url:
+        description: 'XDA Forum URL'
+        required: true
+        type: string
+      guide_url:
+        description: 'Installation Guide URL'
         required: true
         type: string
       md5_hash:
         description: 'MD5 Checksum'
-        required: false
-        type: string
-        default: 'Not provided'
-      changelog:
-        description: 'Changelog / Release Notes'
         required: true
         type: string
 
@@ -41,17 +58,21 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Requests
+      - name: Install Dependencies
         run: pip install requests
 
       - name: Run Bot Script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHANNEL_ID: '@lighting_os_channel'
-          DEVICE: ${{ inputs.device_codename }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           VERSION: ${{ inputs.rom_version }}
+          DEVICE: ${{ inputs.device_codename }}
+          BUILD_DATE: ${{ inputs.build_date }}
           MAINTAINER: ${{ inputs.maintainer_name }}
           DOWNLOAD_URL: ${{ inputs.download_url }}
+          CHANGELOG_URL: ${{ inputs.changelog_url }}
+          SUPPORT_URL: ${{ inputs.support_url }}
+          FORUM_URL: ${{ inputs.forum_url }}
+          GUIDE_URL: ${{ inputs.guide_url }}
           MD5: ${{ inputs.md5_hash }}
-          CHANGELOG: ${{ inputs.changelog }}
         run: python release_bot.py
