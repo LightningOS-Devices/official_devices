@@ -20,6 +20,10 @@ on:
         description: 'Maintainer Name'
         required: true
         type: string
+      banner_url_option:
+        description: 'Override Banner URL (optional, leaves blank to use default secret)'
+        required: false
+        type: string
       download_url:
         description: 'Download Link (Gofile, etc.)'
         required: true
@@ -65,6 +69,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          BANNER_IMAGE_URL: ${{ inputs.banner_url_option != '' && inputs.banner_url_option || secrets.BANNER_IMAGE_URL }}
           VERSION: ${{ inputs.rom_version }}
           DEVICE: ${{ inputs.device_codename }}
           BUILD_DATE: ${{ inputs.build_date }}
