@@ -1,4 +1,4 @@
-How to Flash Recovery and ROM (Project Infinity X) on Exynos9820 devices
+How to Flash Recovery and ROM (LightningOS) on Exynos9820 devices
 
 Recommended Recovery: LineageOS recovery.
 
