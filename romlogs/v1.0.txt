@@ -1,0 +1,7 @@
+v1.0 Changelog 
+
+* Spoofing
+* First initial Thunderbolt 
+* Updated Bootanimation 
+* Simple and Boring 
+* Our New Wallpaper

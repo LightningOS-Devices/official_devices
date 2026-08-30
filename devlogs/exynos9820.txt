@@ -1,0 +1,3 @@
+Exynos9820 Changelog
+
+* Initial A17 Release

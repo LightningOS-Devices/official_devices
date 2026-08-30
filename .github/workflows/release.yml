@@ -11,6 +11,14 @@ on:
         description: 'ROM Version (e.g. 1.0)'
         required: true
         type: string
+      build_type:
+        description: 'Build Variant (GAPPS or Vanilla)'
+        required: true
+        type: choice
+        options:
+          - GAPPS
+          - Vanilla
+        default: 'GAPPS'
       build_date:
         description: 'Build Date (YYYYMMDD)'
         required: true
@@ -25,8 +33,16 @@ on:
         required: true
         type: string
       changelog_url:
-        description: 'Changelog Link (GitHub commit or Telegra.ph)'
+        description: 'Main Changelog Link'
         required: true
+        type: string
+      rom_changelog:
+        description: 'ROM Changelog Link (optional)'
+        required: false
+        type: string
+      device_changelog:
+        description: 'Device Changelog Link (optional)'
+        required: false
         type: string
       support_url:
         description: 'Telegram Support Chat URL'
@@ -64,10 +80,13 @@ jobs:
           BANNER_IMAGE_URL: ${{ secrets.BANNER_IMAGE_URL }}
           VERSION: ${{ inputs.rom_version }}
           DEVICE: ${{ inputs.device_codename }}
+          BUILD_TYPE: ${{ inputs.build_type }}
           BUILD_DATE: ${{ inputs.build_date }}
           MAINTAINER: ${{ inputs.maintainer_name }}
           DOWNLOAD_URL: ${{ inputs.download_url }}
           CHANGELOG_URL: ${{ inputs.changelog_url }}
+          ROM_CHANGELOG: ${{ inputs.rom_changelog }}
+          DEVICE_CHANGELOG: ${{ inputs.device_changelog }}
           SUPPORT_URL: ${{ inputs.support_url }}
           GUIDE_URL: ${{ inputs.guide_url }}
           MD5: ${{ inputs.md5_hash }}
